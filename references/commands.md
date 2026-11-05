@@ -1,18 +1,30 @@
-# Command guide / คู่มือคำสั่ง
+# Command reference
 
-## คุยกับ Agent
+## Agent requests
 
-เรียก `$quantcorner-backtesting-efin-mcp` แล้วบอกงานเป็นภาษาปกติ ตัวอย่างด้านล่างเป็นข้อความที่พิมพ์คุย ไม่ใช่ slash commands ที่ลงทะเบียนใหม่:
+Invoke `$quantcorner-backtesting-efin-mcp`, followed by one of the requests below. These are natural-language instructions to the agent, not registered slash commands or shell subcommands. You can add a symbol, dates, or an existing plan to make a request more specific.
 
-| ข้อความที่พิมพ์ต่อท้ายชื่อสกิล | Agent ทำอะไร |
+| Request | What the agent does |
 |---|---|
-| `ช่วยตั้งค่าครั้งแรก` | ตรวจ Python/ไฟล์ประกอบ สร้างพื้นที่ส่วนตัว ตรวจ Efin ที่เชื่อมไว้ และบอกสิ่งที่ยังขาด |
-| `ถามผมแบบ grill-me ก่อนเริ่ม` | ถามทีละข้อเรื่องสมมติฐาน หุ้น ช่วงเวลา กฎซื้อขาย ต้นทุน และสิ่งที่ต้องการเรียนรู้ |
-| `ช่วยตรวจข้อมูล Efin ของ PTT` | ตรวจ schema, pagination, ช่วงข้อมูล, ปฏิทิน และสถานะการปรับสิทธิ โดยยังไม่ถือว่าข้อมูลผ่านอัตโนมัติ |
-| `ทำ Backtest ตามแผนที่ตกลง` | ตรวจ plan และข้อมูลก่อนรัน บันทึกทุกการทดลอง พร้อมต้นทุนและข้อจำกัด |
-| `อธิบาย Ratio ตามบทที่ 14` | อ่านผลตอบแทน ความถี่/ขนาดกำไรขาดทุน ต้นทุน และ Drawdown ร่วมกัน |
-| `สร้างรายงาน QuantCorner` | สร้าง HTML ออฟไลน์พร้อมโลโก้ กราฟ ตาราง และหลักฐานของรอบทดสอบ |
-| `ลองตัวอย่างโดยไม่ต่อ Efin` | รันข้อมูลสังเคราะห์เพื่อทดลองระบบ ไม่ใช่ผลลงทุนจริง |
+| `Show available commands` | Explain the available requests, terminal commands, required inputs, and outputs. |
+| `Set up my workspace` | Check Python and bundled assets, initialize private research files, and verify the existing Efin MCP connection. Reuse an authenticated connection; only guide connection setup when it is missing. |
+| `Define my strategy with grill-me` | Ask one question at a time to clarify the hypothesis, instruments, dates, trading rules, costs, and intended learning. |
+| `Audit Efin data for PTT` | Retrieve data through the connected Efin MCP and inspect schemas, pagination, coverage, calendar gaps, and corporate-action metadata. Report unresolved issues. |
+| `Run the approved backtest` | Validate the agreed plan and audited data, run the experiment, and preserve its assumptions, costs, results, and trial history. |
+| `Explain the performance metrics` | Interpret returns, trade statistics, costs, risk ratios, and drawdown recovery together using the chapter-14 definitions. |
+| `Generate a QuantCorner report` | Create an offline HTML report with the QuantCorner logo, charts, metric explanations, provenance, and limitations. |
+| `Run the synthetic demo` | Exercise the complete pipeline with generated data, without an Efin connection or claims about actual investment performance. |
+
+Examples:
+
+```text
+$quantcorner-backtesting-efin-mcp Set up my workspace. Efin MCP is already connected.
+$quantcorner-backtesting-efin-mcp Define my strategy with grill-me. Long-only Thai equities, daily bars.
+$quantcorner-backtesting-efin-mcp Audit Efin data for PTT from 2023-01-01 to 2025-12-31.
+$quantcorner-backtesting-efin-mcp Generate a QuantCorner report from my latest completed experiment.
+```
+
+The agent calls the existing Efin MCP directly when connected; users do not need to download provider responses manually. The terminal helpers below process the private snapshots saved by the agent. English command examples do not change the conversation language: respond in the user's preferred language.
 
 ## Terminal commands
 
@@ -25,7 +37,7 @@ Run from the cloned skill directory. Replace example paths with your own. Resear
 | `python3 scripts/demo.py --output "$HOME/quantcorner-demo"` | Produce synthetic `result.json`, `report.html`, and private research records. Use a fresh output folder for another demo; existing trial IDs are preserved. |
 | `python3 scripts/normalize_efin.py --input /private-work/pages.json --symbol PTT --output /private-work/data.json` | Validate saved, fully paginated Efin MCP responses and normalize bars/provenance. Refuse existing output. Does not establish calendar completeness or adjusted prices. |
 | `python3 scripts/research.py --data /private-work/data.json --plan /private-work/plan.json --workspace /private-work/runs --trial-id baseline-001` | Execute an agreed audited plan; save `baseline-001/plan.json`, `dataset.json`, `result.json` and append `trials.jsonl`. Reused trial IDs and previously accessed holdout windows are rejected. |
-| `python3 scripts/report.py --input /private-work/runs/baseline-001/result.json --output /private-work/report.html --title "พฤติกรรมกลยุทธ์"` | Render the result as standalone HTML. Existing HTML at the output path is overwritten; choose a new filename to preserve earlier reports. |
+| `python3 scripts/report.py --input /private-work/runs/baseline-001/result.json --output /private-work/report.html --title "Strategy Behavior Report"` | Render the result as standalone HTML. Existing HTML at the output path is overwritten; choose a new filename to preserve earlier reports. |
 | `python3 -m unittest discover -s tests -v` | Run offline deterministic tests. No licensed data or credentials are required. |
 
 `/private-work` is a placeholder, not a required operating-system directory. Use your actual absolute workspace path. Never change audit/approval flags merely to bypass a failed gate; record the evidence and user-agreed assumptions first.

@@ -11,7 +11,7 @@ Use backtesting to understand strategy behavior, not to promise that a strategy 
 
 ## Command help
 
-For help, commands, or first-time usage, read `references/commands.md`. Explain conversational requests separately from executable CLI commands; never invent registered slash commands. For metric interpretation, follow `references/metrics.md`, including chapter-14 trade statistics, costs, and drawdown recovery status.
+For help, commands, or first-time usage, read `references/commands.md`. Use the English request names documented there consistently when presenting command help. Reuse an existing authenticated Efin MCP connection; do not ask the user to reinstall it. Preserve the user’s preferred conversation language. Explain conversational requests separately from executable CLI commands; never invent registered slash commands. For metric interpretation, follow `references/metrics.md`, including chapter-14 trade statistics, costs, and drawdown recovery status.
 
 ## First use and portability
 

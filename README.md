@@ -13,13 +13,15 @@ python3 scripts/install.py --target codex
 
 The display/repository name is **QuantCornerBacktestingEfinMCP**. The portable skill slug is `quantcorner-backtesting-efin-mcp` (lowercase skill naming convention).
 
-Invoke `$quantcorner-backtesting-efin-mcp` and say: “Set up Efin, then interview me before researching my long-only strategy.” ภาษาไทย: “ตั้งค่าใช้งานครั้งแรก แล้วถามทีละข้อก่อนทำ Backtest เพื่อเข้าใจพฤติกรรมกลยุทธ์”
+Invoke `$quantcorner-backtesting-efin-mcp Set up my workspace. Efin MCP is already connected.` The agent reuses your existing connection and asks only for missing setup or research details.
 
 Python3.9+; no pip dependencies. Efin must already be connected in your AI host using your own licensed account. The installer never reads secrets or edits MCP configuration. Missing grill-me? The skill discloses and uses its bundled equivalent interview protocol; no extra dependency is needed. Read [onboarding](references/onboarding.md).
 
-## คำสั่งและวิธีใช้
+## Commands and usage
 
-อ่าน [คู่มือคำสั่งพร้อมตัวอย่าง](references/commands.md) สำหรับคำสั่งคุยกับ Agent และ Terminal แต่ละคำสั่งทำอะไร รับไฟล์แบบไหน และได้ไฟล์อะไรกลับมา เริ่มง่าย ๆ ด้วย `$quantcorner-backtesting-efin-mcp ช่วยตั้งค่าครั้งแรก`
+Read the [command reference with examples](references/commands.md) for agent requests and terminal commands, including each command's purpose, input format, and output files.
+
+Start with `$quantcorner-backtesting-efin-mcp Show available commands`, or use `Define my strategy with grill-me`, `Audit Efin data for PTT`, `Run the approved backtest`, `Explain the performance metrics`, `Generate a QuantCorner report`, or `Run the synthetic demo`.
 
 Version 0.2 adds chapter-14 trade statistics, realized cost reconciliation and drawdown/recovery durations. See [metric definitions and interpretation](references/metrics.md).
 
