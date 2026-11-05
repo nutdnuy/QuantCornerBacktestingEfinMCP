@@ -3,11 +3,15 @@ name: quantcorner-backtesting-efin-mcp
 description: Research and explain long-only strategy behavior using Efin MCP historical data, a grill-me interview, auditable backtests, and portable QuantCorner reports. Includes first-install onboarding and provider coverage checks. No shorting or order execution.
 metadata:
   display_name: QuantCornerBacktestingEfinMCP
-  version: 0.1.0
+  version: 0.2.0
 ---
 # QuantCornerBacktestingEfinMCP
 
 Use backtesting to understand strategy behavior, not to promise that a strategy “works”. Follow the user's language; do not assume their identity, machine paths, data entitlements, or risk preferences.
+
+## Command help
+
+For help, commands, or first-time usage, read `references/commands.md`. Explain conversational requests separately from executable CLI commands; never invent registered slash commands. For metric interpretation, follow `references/metrics.md`, including chapter-14 trade statistics, costs, and drawdown recovery status.
 
 ## First use and portability
 

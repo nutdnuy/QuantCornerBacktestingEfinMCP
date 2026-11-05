@@ -1,5 +1,10 @@
 # Verification evidence — 2026-11-05
 
+## v0.2 additions
+
+51 tests pass locally on Python3.9: the previous43 plus8 hand-computable chapter-14 checks covering recovery intervals, unresolved episodes, deepest-versus-longest drawdowns, no drawdown, flat trades, payoff threshold, fee/slippage reconciliation and open-position costs. Synthetic report regenerated; desktop1440/mobile390 checks found no horizontal overflow or missing logo. Guide documents every public CLI and its actual arguments, separates conversational prompts from terminal commands, and identifies the low-level bypass boundary. Live Efin integration evidence below is from v0.1; this update changes metrics/docs, not the provider adapter.
+
+
 ## Deterministic checks
 
 43 tests passed locally with Python3.14 using `python3 -m unittest discover -s tests -v`:

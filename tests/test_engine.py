@@ -4,8 +4,10 @@ import importlib.util
 import math
 import pathlib
 import unittest
+import sys
 
 PATH = pathlib.Path(__file__).resolve().parents[1] / "scripts" / "engine.py"
+sys.path.insert(0, str(PATH.parent))
 spec = importlib.util.spec_from_file_location("engine", PATH)
 engine = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(engine)

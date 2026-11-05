@@ -17,6 +17,12 @@ Invoke `$quantcorner-backtesting-efin-mcp` and say: “Set up Efin, then intervi
 
 Python3.9+; no pip dependencies. Efin must already be connected in your AI host using your own licensed account. The installer never reads secrets or edits MCP configuration. Missing grill-me? The skill discloses and uses its bundled equivalent interview protocol; no extra dependency is needed. Read [onboarding](references/onboarding.md).
 
+## คำสั่งและวิธีใช้
+
+อ่าน [คู่มือคำสั่งพร้อมตัวอย่าง](references/commands.md) สำหรับคำสั่งคุยกับ Agent และ Terminal แต่ละคำสั่งทำอะไร รับไฟล์แบบไหน และได้ไฟล์อะไรกลับมา เริ่มง่าย ๆ ด้วย `$quantcorner-backtesting-efin-mcp ช่วยตั้งค่าครั้งแรก`
+
+Version 0.2 adds chapter-14 trade statistics, realized cost reconciliation and drawdown/recovery durations. See [metric definitions and interpretation](references/metrics.md).
+
 ## Try without Efin
 
 ```sh

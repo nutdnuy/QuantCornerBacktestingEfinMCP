@@ -10,6 +10,7 @@ import json
 import math
 import statistics
 from pathlib import Path
+from analytics import drawdown_analysis, cost_statistics
 
 DEFAULTS = {
     "strategy": "sma", "fast": 20, "slow": 200, "currency": "THB",
@@ -120,7 +121,27 @@ def metrics(values, initial, dates, initial_date, trades, cfg):
         cagr = None
     pnls = [t["net_pnl"] for t in trades]
     wins, losses = [x for x in pnls if x > 0], [-x for x in pnls if x < 0]
+    dd = drawdown_analysis(values, initial, dates, initial_date)
+    worst = dd['worst_episode'] or {}
+    payoff = statistics.mean(wins) / statistics.mean(losses) if wins and losses else None
     result = {
+        "winning_trades": len(wins), "losing_trades": len(losses),
+        "breakeven_trades": sum(x == 0 for x in pnls),
+        "loss_rate": len(losses) / len(pnls) if pnls else None,
+        "breakeven_rate": sum(x == 0 for x in pnls) / len(pnls) if pnls else None,
+        "average_win": statistics.mean(wins) if wins else None,
+        "average_loss": statistics.mean(losses) if losses else None,
+        "breakeven_win_rate": 1 / (1 + payoff) if payoff is not None and 0 not in pnls else None,
+        "mean_daily_return": statistics.mean(returns),
+        "annualized_arithmetic_return": statistics.mean(returns) * periods,
+        "daily_volatility": vol_daily, "downside_deviation": downside,
+        "mdd_drawdown_period": worst.get('drawdown_period'),
+        "mdd_recovery_period": worst.get('recovery_period'),
+        "mdd_underwater_period": worst.get('underwater_period'),
+        "recovery_return_required": worst.get('recovery_return_required'),
+        "current_underwater_period": (dd['current_episode'] or {}).get('elapsed_underwater', 0),
+        "longest_completed_underwater": dd['longest_completed_underwater'],
+        "longest_observed_underwater": dd['longest_observed_underwater'],
         "total_return": values[-1] / initial - 1, "cagr": _finite(cagr),
         "annualized_volatility": _finite(volatility), "max_drawdown": max_dd,
         "sharpe": _finite(sharpe), "sortino": _finite(sortino),
@@ -163,14 +184,15 @@ def run(bars, config=None):
         qty = math.floor(balance / (unit_cost * lot)) * lot
         total = qty * unit_cost
         record = {"entry_date": date, "quantity": qty, "entry_price": fill,
-                  "entry_cost": total, "entry_fee": qty * fill * fee} if qty else None
+                  "entry_cost": total, "entry_fee": qty * fill * fee,
+                  "entry_slippage": qty * (fill - price)} if qty else None
         return max(0.0, balance - total), qty, record
 
     def sell(balance, qty, position, price, date, terminal=False):
         fill = price * (1 - slip)
         proceeds = qty * fill * (1 - fee)
         record = {**position, "exit_date": date, "exit_price": fill,
-                  "exit_fee": qty * fill * fee, "net_pnl": proceeds - position["entry_cost"],
+                  "exit_fee": qty * fill * fee, "exit_slippage": qty * (price - fill), "net_pnl": proceeds - position["entry_cost"],
                   "terminal_liquidation": terminal}
         return balance + proceeds, record
 
@@ -244,6 +266,10 @@ def run(bars, config=None):
                         "SMA means fast above slow is long; equal/below is cash. Missing sessions are not interpolated."],
         "warnings": warnings,
     }
+    result['metrics'].update(cost_statistics(trades, entry))
+    result['benchmark_metrics'].update(cost_statistics(benchmark_trades, benchmark_entry if benchmark_shares else None))
+    result['drawdown_analysis'] = drawdown_analysis(values, initial, dates[start:], initial_date)
+    result['benchmark_drawdown_analysis'] = drawdown_analysis([r['benchmark_equity'] for r in equity], initial, dates[start:], initial_date)
     # Refuse invalid JSON numerics rather than publishing an attractive corrupt result.
     json.dumps(result, allow_nan=False)
     return result

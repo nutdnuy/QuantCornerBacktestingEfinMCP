@@ -122,6 +122,7 @@ def execute(dataset, plan, workspace, trial_id):
     base = {'trial_id': trial_id, 'phase': phase, 'start': start, 'end': end,
             'symbol': plan['symbol'], 'plan_hash': digest(plan), 'data_hash': digest(dataset),
             'engine_hash': hashlib.sha256(Path(__file__).with_name('engine.py').read_bytes()).hexdigest(),
+            'analytics_hash': hashlib.sha256(Path(__file__).with_name('analytics.py').read_bytes()).hexdigest(),
             'runner_hash': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     w = Path(workspace)
     w.mkdir(parents=True, exist_ok=True)
