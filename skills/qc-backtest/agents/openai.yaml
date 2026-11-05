@@ -1,0 +1,4 @@
+interface:
+  display_name: "QuantCorner Backtest"
+  short_description: "Run and record the approved development experiment"
+  default_prompt: "Use $qc-backtest to run an approved daily long-only development backtest with shared Efin research gates, costs and complete trial history."

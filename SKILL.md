@@ -3,11 +3,15 @@ name: quantcorner-backtesting-efin-mcp
 description: Research and explain long-only strategy behavior using Efin MCP historical data, a grill-me interview, auditable backtests, and portable QuantCorner reports. Includes first-install onboarding and provider coverage checks. No shorting or order execution.
 metadata:
   display_name: QuantCornerBacktestingEfinMCP
-  version: 0.2.0
+  version: 0.3.0
 ---
 # QuantCornerBacktestingEfinMCP
 
 Use backtesting to understand strategy behavior, not to promise that a strategy “works”. Follow the user's language; do not assume their identity, machine paths, data entitlements, or risk preferences.
+
+## Suite entry points
+
+This original entry point remains supported and owns the shared engine, metric formulas, assets and research gates. For choosing a stage, use ask-quantcorner; focused entry points are qc-setup, qc-design-strategy, qc-audit-data, qc-backtest, qc-validate, qc-explain-results and qc-report. Read `references/suite.md` before working across stages. Resolve installed siblings by name or checkout members under skills/. If the host has no skill-invocation tool, read the selected SKILL.md and follow it in the same session. Never force an existing result through unrelated setup stages.
 
 ## Command help
 

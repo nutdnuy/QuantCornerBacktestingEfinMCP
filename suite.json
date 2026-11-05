@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "version": "0.3.0",
+  "shared_skill": "quantcorner-backtesting-efin-mcp",
+  "skills": [
+    "ask-quantcorner",
+    "qc-setup",
+    "qc-design-strategy",
+    "qc-audit-data",
+    "qc-backtest",
+    "qc-validate",
+    "qc-explain-results",
+    "qc-report"
+  ]
+}

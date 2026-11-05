@@ -1,0 +1,4 @@
+interface:
+  display_name: "QuantCorner Data Audit"
+  short_description: "Audit Efin data coverage and execution assumptions"
+  default_prompt: "Use $qc-audit-data to retrieve and audit Efin MCP data for a specified backtest plan, including pagination, calendar coverage and corporate-action limitations."

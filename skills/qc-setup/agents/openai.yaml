@@ -1,0 +1,4 @@
+interface:
+  display_name: "QuantCorner Setup"
+  short_description: "Prepare a workspace and verify existing Efin MCP"
+  default_prompt: "Use $qc-setup to set up the QuantCorner research workspace and check an existing Efin MCP connection. Use for first use or a changed host/provider."

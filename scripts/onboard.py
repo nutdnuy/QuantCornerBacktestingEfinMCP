@@ -1,14 +1,16 @@
 """Check the local runtime and initialize a private draft without claiming MCP access."""
 import argparse,json,sys
 from pathlib import Path
+from handoff import initialize
 
 def setup(workspace):
     if sys.version_info < (3,9):raise ValueError('Python 3.9+ required')
     root=Path(__file__).resolve().parents[1]
     if not (root/'assets/quantcorner-mark-light.svg').is_file():raise ValueError('Missing authentic logo')
     w=Path(workspace).expanduser().resolve();w.mkdir(parents=True,exist_ok=True)
+    initialize(w)
     state={'schema_version':1,'local_runtime':'ready','efin_connection':'not_checked','capabilities':{},'grill_me':'discover_in_host','secrets_stored':False}
-    plan={'approved':False,'question':None,'symbol':None,'phase':'development','data_audit_passed':False,'price_only_diagnostic_acknowledged':False,'engine':{'strategy':'sma','fast':20,'slow':200,'initial_cash':None,'fee_bps':None,'slippage_bps':None,'lot_size':None,'annual_rf':0,'annual_mar':0,'terminal_liquidation':False,'currency':'THB'},'benchmark':'same-asset buy-and-hold','limitations':[]}
+    plan={'plan_version':1,'hypothesis':None,'development_start':None,'development_end':None,'holdout_start':None,'holdout_end':None,'robustness_scenarios':[],'candidate_identity':None,'candidate_locked':False,'approved':False,'question':None,'symbol':None,'phase':'development','data_audit_passed':False,'price_only_diagnostic_acknowledged':False,'engine':{'strategy':'sma','fast':20,'slow':200,'initial_cash':None,'fee_bps':None,'slippage_bps':None,'lot_size':None,'annual_rf':0,'annual_mar':0,'terminal_liquidation':False,'currency':'THB'},'benchmark':'same-asset buy-and-hold','limitations':[]}
     for name,obj in [('onboarding.json',state),('plan.json',plan)]:
         path=w/name
         if not path.exists():path.write_text(json.dumps(obj,indent=2)+'\n')

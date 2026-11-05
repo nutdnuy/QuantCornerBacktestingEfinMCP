@@ -1,5 +1,12 @@
 # Verification evidence — 2026-11-05
 
+## v0.3 suite verification
+
+65 local tests passed: the previous51 plus14 installation, migration and cross-skill handoff tests. The suite was installed from canonical sibling folders, a simulated public checkout, and an already installed distribution. Tests verify nine entry points share one engine and one logo; legacy copied installations upgrade with complete backups; conflicts and symlinks are preserved; a simulated publication failure rolls back; existing context/registry records survive setup; invalid artifact pointers and handoff locks fail closed. An installed runtime produced a synthetic report and recorded its handoff.
+
+All nine skill metadata files passed structural validation; canonical Codex/Claude links resolve to their intended sources. The scoped personal catalog audit reported no findings for this suite (unrelated pre-existing catalog findings remain). The eight instructions were manually reviewed for stage boundaries, data gating, existing-connection reuse, shared trial lineage and direct report access. This is structural/mechanical verification and manual instruction review, not a measured model-selection or multi-agent evaluation. No live Efin call was needed for this packaging change; earlier adapter smoke evidence is recorded below.
+
+
 ## v0.2 additions
 
 51 tests pass locally on Python3.9: the previous43 plus8 hand-computable chapter-14 checks covering recovery intervals, unresolved episodes, deepest-versus-longest drawdowns, no drawdown, flat trades, payoff threshold, fee/slippage reconciliation and open-position costs. Synthetic report regenerated; desktop1440/mobile390 checks found no horizontal overflow or missing logo. Guide documents every public CLI and its actual arguments, separates conversational prompts from terminal commands, and identifies the low-level bypass boundary. Live Efin integration evidence below is from v0.1; this update changes metrics/docs, not the provider adapter.

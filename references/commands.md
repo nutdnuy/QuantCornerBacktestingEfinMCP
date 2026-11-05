@@ -1,6 +1,34 @@
 # Command reference
 
-## Agent requests
+## Focused skill entry points
+
+Install the complete suite once. Use `$ask-quantcorner` when unsure where to start, or invoke the specific skill directly. These are real skill folders discovered by the host, distinct from the natural-language requests for the legacy entry point below.
+
+| Skill | Purpose |
+|---|---|
+| `ask-quantcorner` | Choose the next step from the request and existing evidence. |
+| `qc-setup` | Prepare a private project and verify the existing Efin MCP connection. |
+| `qc-design-strategy` | Interview with grill-me and record the agreed research plan. |
+| `qc-audit-data` | Retrieve Efin data and audit coverage, timing, and price basis. |
+| `qc-backtest` | Run and record an approved development experiment. |
+| `qc-validate` | Orchestrate planned sensitivity trials and locked held-out evaluation. |
+| `qc-explain-results` | Explain ratios, costs, drawdown recovery and strategy behavior. |
+| `qc-report` | Render a standalone QuantCorner HTML report from an existing result. |
+
+```text
+$ask-quantcorner Help me choose the next step. Efin MCP is already connected.
+$qc-setup Prepare my research workspace using my existing Efin connection.
+$qc-design-strategy Interview me with grill-me about my long-only strategy.
+$qc-audit-data Audit PTT data for the dates in my plan.
+$qc-backtest Run the approved development experiment.
+$qc-validate Evaluate the locked candidate on the pre-specified holdout.
+$qc-explain-results Explain the metrics from my latest completed trial.
+$qc-report Create a QuantCorner report from this result.json.
+```
+
+These prompts invoke instructions; the AI host must support skill discovery or read the corresponding installed SKILL.md directly. They are not shell commands. All empirical work uses the single project registry specified in project.json.
+
+## Legacy entry-point requests
 
 Invoke `$quantcorner-backtesting-efin-mcp`, followed by one of the requests below. These are natural-language instructions to the agent, not registered slash commands or shell subcommands. You can add a symbol, dates, or an existing plan to make a request more specific.
 
@@ -28,12 +56,12 @@ The agent calls the existing Efin MCP directly when connected; users do not need
 
 ## Terminal commands
 
-Run from the cloned skill directory. Replace example paths with your own. Research files must stay outside the public checkout. Every script supports `--help`. Efin tool calls happen through the AI host, not a hidden downloader in these Python scripts.
+Run from the cloned skill directory. Replace example paths with your own. Research files must stay outside the public checkout. Every CLI script supports `--help`; analytics.py is an imported module. Efin tool calls happen through the AI host, not a hidden downloader in these Python scripts.
 
 | Command | Purpose and result |
 |---|---|
-| `python3 scripts/install.py --target codex` | Copy public skill resources into the Codex skills directory. Use `--target claude` for Claude, or `--destination /path/to/skills` for another host. Existing installation is refused; no MCP credentials/config are changed. |
-| `python3 scripts/onboard.py --workspace "$HOME/quantcorner-research"` | Create private `onboarding.json`, draft `plan.json`, and workspace `.gitignore`. Preserve existing files. Local readiness does not prove Efin authentication. |
+| `python3 scripts/install.py --target codex` | Install all eight focused skills plus the shared legacy runtime into the Codex skills directory. Use `--target claude` for Claude, or `--destination /path/to/skills` for another host. Existing installation is refused by default; --upgrade backs up recognized copied folders before replacement. Symlinks and unrelated folders are never replaced. No MCP credentials/config are changed. |
+| `python3 scripts/onboard.py --workspace "$HOME/quantcorner-research"` | Create missing private `onboarding.json`, draft `plan.json`, `project.json`, `CONTEXT.md`, `handoff.json`, and workspace `.gitignore`. Preserve existing files. Local readiness does not prove Efin authentication. |
 | `python3 scripts/demo.py --output "$HOME/quantcorner-demo"` | Produce synthetic `result.json`, `report.html`, and private research records. Use a fresh output folder for another demo; existing trial IDs are preserved. |
 | `python3 scripts/normalize_efin.py --input /private-work/pages.json --symbol PTT --output /private-work/data.json` | Validate saved, fully paginated Efin MCP responses and normalize bars/provenance. Refuse existing output. Does not establish calendar completeness or adjusted prices. |
 | `python3 scripts/research.py --data /private-work/data.json --plan /private-work/plan.json --workspace /private-work/runs --trial-id baseline-001` | Execute an agreed audited plan; save `baseline-001/plan.json`, `dataset.json`, `result.json` and append `trials.jsonl`. Reused trial IDs and previously accessed holdout windows are rejected. |
@@ -52,4 +80,14 @@ This low-level simulator expects a **bare bars array** and an **engine config ob
 
 Read the source/data basis and assumptions first, then compare strategy with benchmark over the same dates. Read Win Rate together with Average Win/Loss, Payoff and Expectancy. Separate filled orders from closed trades and open marks from realized P&L. Costs are already deducted. An unrecovered drawdown has unknown completed recovery/underwater duration, displayed N/A, plus its elapsed age. Report observations and remaining questions, not a binary works/does-not-work verdict.
 
-For an update, `git pull --ff-only` updates a clean clone. The installer deliberately does not overwrite another installation; use the updated clone directly or select a new destination. Owner-managed canonical symlinks already follow canonical updates.
+For an update, `git pull --ff-only` updates a clean clone. Use `python3 scripts/install.py --target codex --upgrade` to replace recognized copied installations while retaining a backup; use --target claude for Claude. Unrecognized folders and symlinks are refused. Owner-managed canonical symlinks already follow canonical updates.
+
+## Cross-skill handoff
+
+After writing/reviewing artifacts in an existing project, record the next step:
+
+```sh
+python3 scripts/handoff.py --workspace /private-work --skill qc-design-strategy --status ready --next-skill qc-audit-data --artifact plan.json --artifact CONTEXT.md --note "Plan agreed; data audit is next."
+```
+
+`--artifact` is repeatable and must name an existing file relative to the project; `--next-skill` can be omitted at completion. `--status` is ready, blocked, or complete. This helper updates handoff.json and appends handoffs.jsonl; it does not approve the plan or mark the data audit passed. For research.py, use the directory recorded in project.json: new projects use /private-work/runs; migrated root-level registries use /private-work itself. The old low-level engine CLI and report CLI remain compatible.
