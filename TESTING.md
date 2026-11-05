@@ -13,7 +13,7 @@ The synthetic demo exercises plan → runner → ledger/metrics → report (800 
 
 The skill-creator metadata validator passed. Canonical Codex/Claude symlinks resolve to the same source. The broader personal catalog has pre-existing unrelated findings; the new skill has no reported catalog findings. This package does not claim that the entire host catalog passed.
 
-GitHub Actions runs the suite and synthetic demo on Python3.9 and3.12 for each push/PR; see the repository's Actions history for the actual run status.
+GitHub Actions runs the suite and synthetic demo on Python3.9 and3.12 using Ubuntu22.04 for each push/PR. The first run exposed that ubuntu-latest (26.04) has no Python3.9 build; the workflow now pins a compatible runner; see the repository's Actions history for the actual run status.
 
 ## Live Efin integration
 
