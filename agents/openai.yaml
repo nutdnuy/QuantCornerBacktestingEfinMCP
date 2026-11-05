@@ -1,0 +1,8 @@
+interface:
+  display_name: "QuantCornerBacktestingEfinMCP"
+  short_description: "Research long-only strategies with Efin MCP"
+  icon_large: "./assets/quantcorner-mark-light.svg"
+  brand_color: "#6200EE"
+  default_prompt: "Use $quantcorner-backtesting-efin-mcp to onboard my Efin connection and interview me before researching a long-only strategy."
+policy:
+  allow_implicit_invocation: true
